@@ -21,7 +21,7 @@ model Location {
   state      String
   zipcode    String
   propertyId String
-  Properties Property[]
+  properties Property[]
 }
 
 model Rate {
@@ -29,7 +29,7 @@ model Rate {
   nightly    Int?
   weekly     Int?
   monthly    Int?
-  Properties Property[]
+  properties Property[]
 }
 
 model Seller {
@@ -37,15 +37,16 @@ model Seller {
   name       String
   email      String     @unique
   phone      String     @unique
-  Properties Property[]
+  properties Property[]
 }
 
 model Property {
   id          String       @id @default(uuid())
-  owner       String
+  ownerId     String
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name        String       @unique
   type        PropertyType
-  description String       @db.Text
+  description String?      @db.Text
   beds        Int
   baths       Int
   sqft        Int
@@ -60,4 +61,25 @@ model Property {
   location    Location     @relation(fields: [locationId], references: [id], onUpdate: Cascade)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  bookmarks   Bookmark[]
+}
+
+model Bookmark {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id         String     @id @default(uuid())
+  clerkId    String
+  username   String     @unique
+  email      String     @unique
+  avatar     String?
+  properties Property[]
+  bookmarks  Bookmark[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
