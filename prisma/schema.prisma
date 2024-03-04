@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PropertyType {
+  APARTMENT
+  CONDO
+  CHALET
+  HOUSE
+}
+
+model Location {
+  id         String     @id @default(uuid())
+  street     String
+  city       String
+  state      String
+  zipcode    String
+  propertyId String
+  Properties Property[]
+}
+
+model Rate {
+  id         String     @id @default(uuid())
+  nightly    Int?
+  weekly     Int?
+  monthly    Int?
+  Properties Property[]
+}
+
+model Seller {
+  id         String     @id @default(uuid())
+  name       String
+  email      String     @unique
+  phone      String     @unique
+  Properties Property[]
+}
+
+model Property {
+  id          String       @id @default(uuid())
+  owner       String
+  name        String       @unique
+  type        PropertyType
+  description String       @db.Text
+  beds        Int
+  baths       Int
+  sqft        Int
+  amenities   String[]
+  rateId      String
+  rates       Rate         @relation(fields: [rateId], references: [id], onUpdate: Cascade)
+  sellerId    String
+  seller      Seller       @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  images      String[]
+  isFeatured  Boolean      @default(false)
+  locationId  String
+  location    Location     @relation(fields: [locationId], references: [id], onUpdate: Cascade)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
