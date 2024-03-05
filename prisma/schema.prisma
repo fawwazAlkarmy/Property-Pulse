@@ -14,32 +14,6 @@ enum PropertyType {
   HOUSE
 }
 
-model Location {
-  id         String     @id @default(uuid())
-  street     String
-  city       String
-  state      String
-  zipcode    String
-  propertyId String
-  properties Property[]
-}
-
-model Rate {
-  id         String     @id @default(uuid())
-  nightly    Int?
-  weekly     Int?
-  monthly    Int?
-  properties Property[]
-}
-
-model Seller {
-  id         String     @id @default(uuid())
-  name       String
-  email      String     @unique
-  phone      String     @unique
-  properties Property[]
-}
-
 model Property {
   id          String       @id @default(uuid())
   ownerId     String
@@ -51,14 +25,11 @@ model Property {
   baths       Int
   sqft        Int
   amenities   String[]
-  rateId      String
-  rates       Rate         @relation(fields: [rateId], references: [id], onUpdate: Cascade)
-  sellerId    String
-  seller      Seller       @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  rates       Json         @db.JsonB
+  seller      Json         @db.JsonB
   images      String[]
   isFeatured  Boolean      @default(false)
-  locationId  String
-  location    Location     @relation(fields: [locationId], references: [id], onUpdate: Cascade)
+  location    Json         @db.JsonB
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   bookmarks   Bookmark[]

@@ -1,10 +1,16 @@
-import properties from "@/properties.json";
 import PropertyCard from "./PropertyCard";
 import Link from "next/link";
-const HomeProperties = () => {
-  const recentProperties = properties
-    .sort(() => Math.random() - Math.random())
-    .slice(0, 3);
+import { getProperties } from "@/app/properties/page";
+import { IProperty } from "@/utils/types";
+
+const HomeProperties = async () => {
+  const properties: IProperty[] = await getProperties();
+  let recentProperties: IProperty[] = [];
+  if (properties) {
+    recentProperties = properties
+      .sort(() => Math.random() - Math.random())
+      .slice(0, 3);
+  }
   return (
     <>
       <section className="px-4 py-6">

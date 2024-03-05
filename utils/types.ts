@@ -17,20 +17,19 @@ export interface IProperty {
   updatedAt: string;
 }
 
-export interface Location {
+interface Location {
   street: string;
   city: string;
   state: string;
   zipcode: string;
 }
-
-export interface Rates {
+interface Rates {
   weekly?: number;
   monthly?: number;
   nightly?: number;
 }
 
-export interface SellerInfo {
+interface SellerInfo {
   name: string;
   email: string;
   phone: string;

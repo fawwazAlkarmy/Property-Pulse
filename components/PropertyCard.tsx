@@ -13,16 +13,14 @@ interface Props {
   property: IProperty;
 }
 
-const PropertyCard = ({ property }: Props) => {
-  const getRateDisplay = () => {
-    const { rates } = property;
-
-    if (rates.monthly) {
-      return `${rates.monthly.toLocaleString()}/mo`;
-    } else if (rates.weekly) {
-      return `${rates.weekly.toLocaleString()}/wk`;
-    } else if (rates.nightly) {
-      return `${rates.nightly.toLocaleString()}/night`;
+const PropertyCard = async ({ property }: Props) => {
+  const getRateDisplay = async () => {
+    if (property.rates?.monthly) {
+      return `${property.rates?.monthly.toLocaleString()}/mo`;
+    } else if (property.rates?.weekly) {
+      return `${property.rates?.weekly.toLocaleString()}/wk`;
+    } else if (property.rates?.nightly) {
+      return `${property.rates?.nightly.toLocaleString()}/night`;
     }
   };
   return (
@@ -61,19 +59,19 @@ const PropertyCard = ({ property }: Props) => {
         </div>
 
         <div className="flex justify-center gap-4 text-green-900 text-sm mb-4">
-          {property.rates.nightly && (
+          {property.rates?.nightly && (
             <p>
               <FaMoneyBill className="inline mr-2" /> Nightly
             </p>
           )}
 
-          {property.rates.weekly && (
+          {property.rates?.weekly && (
             <p>
               <FaMoneyBill className="inline mr-2" /> Weekly
             </p>
           )}
 
-          {property.rates.monthly && (
+          {property.rates?.monthly && (
             <p>
               <FaMoneyBill className="inline mr-2" /> Monthly
             </p>
@@ -87,7 +85,7 @@ const PropertyCard = ({ property }: Props) => {
             <FaMapMarker className="text-orange-700 mt-1" />
             <span className="text-orange-700">
               {" "}
-              {property.location.city} {property.location.state}{" "}
+              {property.location?.city} {property.location?.state}{" "}
             </span>
           </div>
           <Link
