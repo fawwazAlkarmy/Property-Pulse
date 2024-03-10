@@ -1,5 +1,5 @@
 export interface IProperty {
-  _id: string;
+  id: string;
   owner: string;
   name: string;
   type: string;

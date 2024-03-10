@@ -1,6 +1,6 @@
 import PropertyCard from "./PropertyCard";
 import Link from "next/link";
-import { getProperties } from "@/app/properties/page";
+import { getProperties } from "@/utils/api-requests";
 import { IProperty } from "@/utils/types";
 
 const HomeProperties = async () => {
@@ -20,7 +20,7 @@ const HomeProperties = async () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {recentProperties.map((property) => (
-              <PropertyCard property={property} key={property._id} />
+              <PropertyCard property={property} key={property.id} />
             ))}
           </div>
         </div>
