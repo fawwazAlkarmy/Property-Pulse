@@ -1,12 +1,16 @@
 import axios from "axios";
 
+const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
+
 export const getProperties = async () => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`
-    );
+    if (!apiDomain) {
+      return [];
+    }
+    const response = await axios.get(`${apiDomain}/properties`);
     return response.data;
   } catch (error: any) {
     console.log(error.message);
+    return [];
   }
 };
