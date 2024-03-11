@@ -4,7 +4,7 @@ import { getProperties } from "@/utils/api-requests";
 import { IProperty } from "@/utils/types";
 
 const HomeProperties = async () => {
-  const properties: IProperty[] = await getProperties();
+  const properties = await getProperties();
   let recentProperties: IProperty[] = [];
   if (properties) {
     recentProperties = properties
